@@ -28,3 +28,40 @@ INSERT INTO ORDERS (ORDER_ID, CUSTOMER_ID, TOTAL_AMOUNT, ITEM) VALUES
 (1, 1, 150.00, 'Laptop'),
 (2, 1, 50.00, 'Mouse'),
 (3, 2, 200.00, 'Smartphone');
+--Performing join operation 
+--Selecting data from ORDERS and CUSTOMERS tables, joined on CUSTOMER_ID
+SELECT 
+    ORDERS.ORDER_ID, 
+    CUSTOMERS.First_name, 
+    CUSTOMERS.Last_name, 
+    ORDERS.OrderDate, 
+    ORDERS.TOTAL_AMOUNT, 
+    ORDERS.ITEM,
+    CUSTOMERS.ADDRESS
+FROM 
+    ORDERS
+INNER JOIN 
+    CUSTOMERS 
+ON 
+    ORDERS.CUSTOMER_ID = CUSTOMERS.customer_id;
+--Performing count to see the number of orders placed by each customer
+SELECT 
+    CUSTOMERS.customer_id,
+    CUSTOMERS.First_name,
+    CUSTOMERS.Last_name,
+    CUSTOMERS.Address,
+    COUNT(ORDERS.ORDER_ID) AS ORDER_COUNT
+FROM 
+    CUSTOMERS
+LEFT JOIN 
+    ORDERS 
+ON 
+    CUSTOMERS.customer_id = ORDERS.CUSTOMER_ID
+GROUP BY 
+    CUSTOMERS.customer_id,
+    CUSTOMERS.First_name,
+    CUSTOMERS.Last_name,
+    CUSTOMERS.Address
+ORDER BY 
+    CUSTOMERS.customer_id ASC;
+
