@@ -140,4 +140,29 @@ VALUES
     (1, 1, 1, 2, 100.00), -- OrderDetailID 1 for OrderID 1, ProductID 1, 2 units at $100 each
     (2, 1, 2, 1, 50.00),  -- OrderDetailID 2 for OrderID 1, ProductID 2, 1 unit at $50 each
     (3, 2, 3, 3, 120.00); -- OrderDetailID 3 for OrderID 2, ProductID 3, 3 units at $120 each
+--Retrieve Orders for a Specific Customer
+SELECT o.ORDER_ID, o.OrderDate, p.ProductName, od.Quantity, od.Price
+FROM ORDERS o
+JOIN OrderDetails od ON o.ORDER_ID = od.OrderID
+JOIN PRODUCTS p ON od.ProductID = p.ProductID
+JOIN CUSTOMERS c ON o.CUSTOMER_ID = c.customer_id
+WHERE c.First_name = 'John' AND c.Last_name = 'Doe';
+--Calculate Total Sales Revenue
+SELECT SUM(od.Quantity * od.Price) AS TotalRevenue
+FROM OrderDetails od;
+-- List Products with Suppliers
+SELECT p.ProductID, p.ProductName, s.SupplierName
+FROM PRODUCTS p
+JOIN SUPPLIERS s ON p.SupplierID = s.SupplierID;
+--Update Order Details
+UPDATE OrderDetails
+SET Quantity = 4, Price = 110.00
+WHERE OrderDetailID = 1;
+--Delete an Order
+DELETE FROM ORDERS
+WHERE ORDER_ID = 1;
+--Insert New Customer
+INSERT INTO CUSTOMERS (First_name, Last_name, Email, Phone, Address)
+VALUES ('Emily', 'Johnson', 'emily.johnson@example.com', '5551234567', '789 Oak St');
+--Calculate Total Amount Spent by Customers
 
