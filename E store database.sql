@@ -95,3 +95,49 @@ FROM
     SHIPPING
 WHERE 
     STATUS = 'In Transit';
+-- Create SUPPLIERS table
+CREATE TABLE SUPPLIERS (
+    SupplierID INT PRIMARY KEY,
+    SupplierName VARCHAR(100),
+    ContactName VARCHAR(100),
+    Phone VARCHAR(20),
+    Address VARCHAR(255)
+);
+-- Insert into SUPPLIERS table with new SupplierID values
+INSERT INTO SUPPLIERS (SupplierID, SupplierName, ContactName, Phone, Address) 
+VALUES 
+    (3, 'Supplier A', 'John Doe', '1234567890', '123 Main St'),
+    (4, 'Supplier B', 'Jane Smith', '9876543210', '456 Elm St');
+
+-- Create PRODUCTS table
+CREATE TABLE PRODUCTS (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(100),
+    SupplierID INT,
+    UnitPrice DECIMAL(10, 2),
+    FOREIGN KEY (SupplierID) REFERENCES SUPPLIERS(SupplierID)
+);
+-- Insert into PRODUCTS table
+INSERT INTO PRODUCTS (ProductID, ProductName, SupplierID, UnitPrice) 
+VALUES 
+    (1, 'LAPTOP', 1, 100.00),
+    (2, 'MOUSE', 1, 50.00),
+    (3, 'SMARTPHONE', 2, 120.00);
+
+-- Create ORDER DETAILS table
+CREATE TABLE OrderDetails (
+    OrderDetailID INT PRIMARY KEY AUTO_INCREMENT,
+    OrderID INT,
+    ProductID INT,
+    Quantity INT NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (OrderID) REFERENCES Orders(Order_ID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+-- Insert into OrderDetails table
+INSERT INTO OrderDetails (OrderDetailID, OrderID, ProductID, Quantity, Price)
+VALUES
+    (1, 1, 1, 2, 100.00), -- OrderDetailID 1 for OrderID 1, ProductID 1, 2 units at $100 each
+    (2, 1, 2, 1, 50.00),  -- OrderDetailID 2 for OrderID 1, ProductID 2, 1 unit at $50 each
+    (3, 2, 3, 3, 120.00); -- OrderDetailID 3 for OrderID 2, ProductID 3, 3 units at $120 each
+
