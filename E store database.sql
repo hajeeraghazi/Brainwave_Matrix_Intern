@@ -64,4 +64,34 @@ GROUP BY
     CUSTOMERS.Address
 ORDER BY 
     CUSTOMERS.customer_id ASC;
+-- Create SHIPPING table
+CREATE TABLE SHIPPING (
+    Shipping_ID INT PRIMARY KEY,
+    ORDER_ID INT,
+    Shipping_Date DATETIME,
+    Shipping_Address VARCHAR(255),
+    Status VARCHAR(50),
+    FOREIGN KEY (ORDER_ID) REFERENCES ORDERS(ORDER_ID)
+);
 
+-- Insert sample data into SHIPPING table
+INSERT INTO SHIPPING (Shipping_ID, ORDER_ID, Shipping_Date, Shipping_Address, Status) VALUES
+(1, 1, '2024-07-01 10:00:00', '123 Main St, City, Country', 'Shipped'),
+(2, 2, '2024-07-02 11:30:00', '456 Elm St, City, Country', 'In Transit'),
+(3, 3, '2024-07-03 09:45:00', '789 Oak St, City, Country', 'Delivered');
+--Shows the shipping_id,order_is and status of orders that are in transit and delivered
+SELECT
+    SHIPPING_ID,
+    ORDER_ID,
+    STATUS
+FROM
+    SHIPPING
+WHERE
+    STATUS = 'In Transit' OR STATUS='Delivered';
+--Counts the number of orders in transit
+SELECT 
+    COUNT(*) AS OrdersInTransit
+FROM 
+    SHIPPING
+WHERE 
+    STATUS = 'In Transit';
