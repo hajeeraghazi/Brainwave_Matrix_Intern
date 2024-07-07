@@ -165,4 +165,8 @@ WHERE ORDER_ID = 1;
 INSERT INTO CUSTOMERS (First_name, Last_name, Email, Phone, Address)
 VALUES ('Emily', 'Johnson', 'emily.johnson@example.com', '5551234567', '789 Oak St');
 --Calculate Total Amount Spent by Customers
-
+SELECT c.customer_id, c.First_name, c.Last_name, SUM(od.Quantity * od.Price) AS TotalSpent
+FROM CUSTOMERS c
+JOIN ORDERS o ON c.customer_id = o.CUSTOMER_ID
+JOIN OrderDetails od ON o.ORDER_ID = od.OrderID
+GROUP BY c.customer_id, c.First_name, c.Last_name;
